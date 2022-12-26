@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!--Jquery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--    font-->
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"/>
+
+</head>
+<script>
+    $(document).ready(function () {
+        getPosts();
+    });
+
+    //     전체 게시글 가져오기
+    function writePost() {
+        // 제목과 게시글내용, 이름 가져옴
+        let contents = $('#contents').val();
+        let titles = $('#titles').val();
+        let names = $('#names').val();
+        let passwords = $('#passwords').val();
+
+        //     각 내용들 유효성 확인
+        if (isValidContents(contents) == false) {
+            return;
+        }
+
+        if (isValidTitles(titles) == false) {
+            return;
+        }
+
+        if (isValidNames(names) == false) {
+            return;
+        }
+
+        if (isValidPasswords(passwords) == false) {
+            return;
+        }
+
+        let fieldData = {
+            'names': names,
+            'titles': titles,
+            'contents': contents,
+            'passwords': passwords
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/api/posts",
+            contentType: "application/json",
+            data: JSON.stringify(fieldData),
+            success: function (response) {
+                alert('게시글 등록');
+                window.location.reload();
+            }
+
+        });
+    }
+
+
+    function getPosts() {
+
+        // 전체 게시글 목록을 가져온다.
+        $.ajax({
+            type: "GET",
+            url: "/api/posts",
+            data: {},
+            success: function (response) {
+                for (let i = 0; i < response.length; i++) {
+
+                    let contents = response[i]['contents'];
+                    let id = response[i]['id'];
+                    let modifiedAt = response[i]['modifiedAt'];
+                    let names = response[i]['names'];
+                    let titles = response[i]['titles'];
+                    addHTML(id, titles, names, contents, modifiedAt);
+
+                }
+
+
+            }
+        });
+    }
+
+    function addHTML(id, titles, names, contents, modifiedAt) {
+        let tempHtml = makePosts(id, titles, names, contents, modifiedAt);
+        $('#cards-box').append(tempHtml);
+    }
+
+    function makePosts(id, titles, names, contents, modifiedAt) {
+        return `<div class="card">
+                        <!-- date/username 영역 -->
+                        <div class="metadata">
+                            <div class="date">
+                                ${modifiedAt}
+                            </div>
+                            <div id="${id}-username" class="username">
+                                ${names}
+                            </div>
+                        </div>
+                        <!-- contents 조회/수정 영역-->
+                        <div class="contents">
+                        <div id="${id}-titles" class="text">
+                                ${titles}
+                            </div>
+                            <hr>
+
+                            <div id="${id}-contents" class="text">
+                                ${contents}
+                            </div>
+                            <div id="${id}-editarea" class="edit">
+                                <textarea id="${id}-textarea" class="te-edit" name="" id="" cols="30" rows="5"></textarea>
+                            </div>
+                        </div>
+                        <!-- 버튼 영역-->
+                        <div class="footer">
+                            <img id="${id}-edit" class="icon-start-edit" src="/images/edit.png" alt="" onclick="editPost('${id}')">
+                            <img id="${id}-delete" class="icon-delete" src="/images/delete.png" alt="" onclick="deleteOne('${id}')">
+                            <img id="${id}-submit" class="icon-end-edit" src="/images/done.png" alt="" onclick="submitEdit('${id}')">
+                        </div>
+                    </div>`;
+    }
+
+
+    function isValidContents(contents) {
+        if (contents == "") {
+            alert("내용을 입력해 주세요!")
+            return false
+        }
+        return true;
+    }
+
+    function isValidTitles(titles) {
+        if (titles == "") {
+            alert("제목을 입력해 주세요!")
+            return false
+        }
+        return true;
+    }
+
+    function isValidNames(names) {
+        if (titles == "") {
+            alert("이름을 입력해 주세요!")
+            return false
+        }
+        return true;
+    }
+
+    function isValidPasswords(passwords) {
+        let passwordsValidCheckLimit = /^[0-9]{5,10}$/
+
+        if (!passwordsValidCheckLimit.test(passwords)) {
+            alert("5~10자 이내의 숫자만 이용하여 비밀번호를 작성해 주세요")
+            return false;
+        }
+
+        return true;
+
+    }
+
+
+</script>
+<style>
+    @font-face {
+        font-family: 'Pretendard-Regular';
+        src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    * {
+        font-family: Pretendard-Regular;
+        font-weight: 400;
+        font-size: 16px;
+    }
+
+    textarea {
+
+        resize: none;
+    }
+
+    .area-write {
+        position: relative;
+        width: 538px;
+    }
+
+    .area-write img {
+        cursor: pointer;
+        position: absolute;
+        width: 22.2px;
+        height: 18.7px;
+        bottom: 15px;
+        right: 17px;
+    }
+
+    textarea.contentsfield {
+        width: 502px !important;
+        height: 146px;
+        border-radius: 5px;
+        background-color: #ffffff;
+        border: none;
+        padding: 18px;
+        resize: none;
+    }
+
+    textarea.titlefield {
+        width: 502px !important;
+        height: 25px;
+        border-radius: 5px;
+        background-color: #ffffff;
+        border: none;
+        padding: 18px;
+        resize: none;
+    }
+
+    textarea.namefield {
+        width: 502px !important;
+        height: 25px;
+        border-radius: 5px;
+        background-color: #ffffff;
+        border: none;
+        padding: 18px;
+        resize: none;
+    }
+
+    input.passwordfield {
+        width: 502px !important;
+        height: 25px;
+        border-radius: 5px;
+        background-color: #ffffff;
+        border: none;
+        padding: 18px;
+        resize: none;
+    }
+
+    .card {
+        width: 538px;
+        border-radius: 5px;
+        background-color: #ffffff;
+        margin-bottom: 12px;
+    }
+
+    .card .metadata {
+        position: relative;
+        display: flex;
+        font-size: 11px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1;
+        letter-spacing: -0.77px;
+        text-align: left;
+        color: #adb5bd;
+        height: 14px;
+        padding: 10px 23px;
+    }
+
+    .card .metadata .date {
+
+    }
+
+    .card .metadata .username {
+        margin-left: 20px;
+    }
+
+    .contents {
+        padding: 0px 23px;
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+
+    .contents div.edit {
+        display: none;
+    }
+
+    .contents textarea.te-edit {
+        border-right: none;
+        border-top: none;
+        border-left: none;
+        resize: none;
+        border-bottom: 1px solid #212529;
+        width: 100%;
+
+    }
+
+    .footer {
+        position: relative;
+        height: 40px;
+    }
+
+    .footer img.icon-start-edit {
+        cursor: pointer;
+        position: absolute;
+        bottom: 14px;
+        right: 55px;
+        width: 18px;
+        height: 18px;
+    }
+
+    .footer img.icon-end-edit {
+        cursor: pointer;
+        position: absolute;
+        display: none;
+        bottom: 14px;
+        right: 55px;
+        width: 20px;
+        height: 15px;
+    }
+
+    .footer img.icon-delete {
+        cursor: pointer;
+        position: absolute;
+        bottom: 12px;
+        right: 19px;
+        width: 14px;
+        height: 18px;
+    }
+
+    #cards-box {
+        margin-top: 12px;
+    }
+
+    .maintitle {
+        font-family: Pretendard-Regular;
+        font-weight: 700;
+        font-size: 52px;
+    }
+
+
+</style>
+<body>
+<h1 class="maintitle"> Spring을 이용한 <br>
+    게시판 페이지 구현입니다<span style="color:#3A7BD5; font-size: 52px;">.</span></h1>
+
+
+<div class="area-write">
+
+</div>
+
+<div class="area-write">
+    <textarea class="namefield" placeholder="이름을 입력하세요" name="names" th:id="names" cols="30"
+              rows="10"></textarea>
+
+    <input type="password" class="passwordfield" placeholder="5~10자 이내의 숫자만 이용하여 비밀번호를 작성해 주세요" name="passwords"
+           th:id="passwords"
+           cols="30"
+           rows="10"></input>
+
+    <textarea class="titlefield" placeholder="제목을 입력하세요" name="titles" th:id="titles" cols="30"
+              rows="10"></textarea>
+
+    <textarea class="contentsfield" placeholder="본문 내용을 입력하세요" name="contents" th:id="contents" cols="30"
+              rows="10"></textarea>
+    <img src="/images/send.png" alt="" onclick="writePost()">
+</div>
+
+<div id="cards-box" class="area-read">
+
+</div>
+</body>
+</html>
