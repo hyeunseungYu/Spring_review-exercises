@@ -1,4 +1,5 @@
 ## useCase
+![usecase](https://user-images.githubusercontent.com/118980125/209763679-436c4622-6d89-445d-8c08-973360b62c88.jpg)
 
 ## api명세서
 | Method | URL         | Request                                                                                   | Response                                                                                                                                                                                                                                                     |
