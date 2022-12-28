@@ -16,6 +16,7 @@
 <script>
     $(document).ready(function () {
         getPosts();
+
     });
 
     //     전체 게시글 가져오기
@@ -64,6 +65,7 @@
     }
 
 
+
     function getPosts() {
 
         // 전체 게시글 목록을 가져온다.
@@ -104,20 +106,25 @@
                                 ${names}
                             </div>
                         </div>
+
+
                         <!-- contents 조회/수정 영역-->
+
                         <div class="contents">
-                        <div id="${id}-titles" class="text">
+
+                        <div id="${id}-titles" class="text" onclick="openBox(${id})">
                                 ${titles}
                             </div>
                             <hr>
-
-                            <div id="${id}-contents" class="text">
+                            <div id="${id}contents" class="text" style="display: none">
                                 ${contents}
                             </div>
+
                             <div id="${id}-editarea" class="edit">
                                 <textarea id="${id}-textarea" class="te-edit" name="" id="" cols="30" rows="5"></textarea>
                             </div>
                         </div>
+
                         <!-- 버튼 영역-->
                         <div class="footer">
                             <img id="${id}-edit" class="icon-start-edit" src="/images/edit.png" alt="" onclick="editPost('${id}')">
@@ -127,6 +134,42 @@
                     </div>`;
     }
 
+    function submitEdit(id) {
+        // 1. 작성 대상 메모의 username과 contents 를 확인합니다.
+        let names = $(`#${id}-username`).text().trim();
+        let titles = $(`#${id}-titles`).text().trim();
+        let contents = $(`#${id}-textarea`).val().trim();
+
+        // 2. 작성한 메모가 올바른지 isValidContents 함수를 통해 확인합니다.
+
+        if (isValidContents(contents) == false) {
+            return;
+        }
+
+        if (isValidTitles(titles) == false) {
+            return;
+        }
+
+        if (isValidNames(names) == false) {
+            return;
+        }
+
+        // 3. 전달할 data JSON으로 만듭니다.
+        let data = {'names': names,
+                    'contents': contents};
+
+        // 4. PUT /api/memos/{id} 에 data를 전달합니다.
+        $.ajax({
+            type: "PUT",
+            url: `/api/memos/${id}`,
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (response) {
+                alert('메시지 변경에 성공하였습니다.');
+                window.location.reload();
+            }
+        });
+    }
 
     function isValidContents(contents) {
         if (contents == "") {
@@ -163,6 +206,26 @@
         return true;
 
     }
+    function showEdits(id) {
+        $(`#${id}-editarea`).show();
+        $(`#${id}-submit`).show();
+        $(`#${id}-delete`).show();
+
+        $(`#${id}contents`).hide();
+        $(`#${id}-edit`).hide();
+    }
+
+    function editPost(id) {
+        showEdits(id);
+        let contents = $(`#${id}-contents`).text().trim();
+        $(`#${id}-textarea`).val(contents);
+    }
+
+    function openBox(id){
+        $("#" + id + "contents").show()
+    }
+
+
 
 
 </script>
