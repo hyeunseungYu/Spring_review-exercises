@@ -10,19 +10,16 @@ import java.util.Optional;
 @Getter
 @RequiredArgsConstructor
 public class FreeBoardRequestDto {
-    private String names;
+    private String username;
     private String titles;
     private String contents;
     private LocalDateTime modifiedAt;
 
-
     public FreeBoardRequestDto(FreeBoard entity) {
-        this.names = entity.getNames();
+        this.username = entity.getUsername();
         this.titles = entity.getTitles();
         this.contents = entity.getContents();
         this.modifiedAt = entity.getModifiedAt();
 
     }
-
-
 }

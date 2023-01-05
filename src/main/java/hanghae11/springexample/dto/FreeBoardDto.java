@@ -8,10 +8,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 
 public class FreeBoardDto {
-    private String names;
+    private String username;
     private String titles;
     private String contents;
-    private Integer passwords;
+//    private Integer passwords;
 
 }
 

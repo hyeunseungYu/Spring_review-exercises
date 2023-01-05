@@ -18,6 +18,18 @@
         getPosts();
 
     });
+    function login(){
+        $.ajax({
+            type: "POST",
+            url: "/posts",
+            contentType: "application/json",
+            data: JSON.stringify({username : username, password: password}),
+            success: function (response, status, xhr) {
+
+            }
+
+        });
+    }
 
     //     전체 게시글 가져오기
     function writePost() {

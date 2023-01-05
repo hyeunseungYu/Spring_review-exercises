@@ -13,6 +13,6 @@ public class FreeBoardPasswordRequestDto {
     private Integer passwords;
 
     public FreeBoardPasswordRequestDto(FreeBoard entity){
-        this.passwords = entity.getPasswords();
+//        this.passwords = entity.getPasswords();
     }
 }
