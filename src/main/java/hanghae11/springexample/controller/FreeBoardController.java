@@ -1,9 +1,8 @@
 package hanghae11.springexample.controller;
 
 import hanghae11.springexample.dto.*;
-import hanghae11.springexample.entity.FreeBoard;
 import hanghae11.springexample.member.dto.SignupRequestMsgDto;
-import hanghae11.springexample.repository.FreeBoardRepository;
+import hanghae11.springexample.member.dto.memberRequestDto;
 import hanghae11.springexample.service.FreeBoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +35,7 @@ public class FreeBoardController {
     }
 
     @PostMapping("/posts")
-    public memberRequestDto postContents(@RequestBody FreeBoardDto freeBoardto, HttpServletRequest request) {
+    public memberRequestDto postContents(@RequestBody CreatePostRequestDto freeBoardto, HttpServletRequest request) {
         return freeBoardService.createPost(freeBoardto, request);
     }
 

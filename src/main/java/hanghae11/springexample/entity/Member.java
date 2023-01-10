@@ -1,6 +1,7 @@
 package hanghae11.springexample.entity;
 
 import hanghae11.springexample.dto.FreeBoardEditRequestDto;
+import hanghae11.springexample.member.dto.AdminRequestDto;
 import hanghae11.springexample.member.dto.SignupRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,11 +31,60 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     List<FreeBoard> freeBoards = new ArrayList<>();
 
+    @OneToMany(mappedBy = "memberLikes", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Likes> likes = new ArrayList<>();
 
-    public Member(String username, String password, MemberRoleEnum role) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
+
+//    public Member(String username, String password, MemberRoleEnum role) {
+//        this.username = username;
+//        this.password = password;
+//        this.role = role;
+//    }
+
+    private Member(MemberBuilder memberBuilder) {
+        this.username = memberBuilder.username;
+        this.password = memberBuilder.password;
+        this.role = memberBuilder.role;
     }
+
+    public static MemberBuilder builder() {
+        return new MemberBuilder();
+    }
+
+    public static class MemberBuilder {
+        private String username;
+        private String password;
+        private MemberRoleEnum role;
+
+
+
+        protected MemberBuilder() {
+
+        }
+
+        public MemberBuilder username(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public MemberBuilder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public MemberBuilder role(MemberRoleEnum role) {
+            this.role = role;
+            return this;
+        }
+
+        public Member build() {
+            return new Member(this);
+        }
+    }
+
+    public void adminUpdate(MemberRoleEnum memberRoleEnum) {
+        this.role = memberRoleEnum;
+    }
+
 
 }

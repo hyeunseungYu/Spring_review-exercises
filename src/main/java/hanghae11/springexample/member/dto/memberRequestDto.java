@@ -1,10 +1,7 @@
-package hanghae11.springexample.dto;
+package hanghae11.springexample.member.dto;
 
 import hanghae11.springexample.entity.FreeBoard;
-import hanghae11.springexample.entity.Member;
 import lombok.Data;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Data
 public class memberRequestDto {

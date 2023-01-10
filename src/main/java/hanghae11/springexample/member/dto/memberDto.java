@@ -1,4 +1,4 @@
-package hanghae11.springexample.dto;
+package hanghae11.springexample.member.dto;
 
 import hanghae11.springexample.entity.Member;
 import hanghae11.springexample.entity.MemberRoleEnum;

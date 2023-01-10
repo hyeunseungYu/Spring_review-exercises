@@ -1,19 +1,18 @@
-package hanghae11.springexample.member.dto;
+package hanghae11.springexample.reply.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class SignupRequestMsgDto {
+public class ReplyRequestMsgDto {
     private String msg;
 
     private Integer httpStatus;
 
-    public SignupRequestMsgDto(String msg, Integer httpStatus) {
+    public ReplyRequestMsgDto(String msg, Integer httpStatus) {
         this.msg = msg;
         this.httpStatus = httpStatus;
     }

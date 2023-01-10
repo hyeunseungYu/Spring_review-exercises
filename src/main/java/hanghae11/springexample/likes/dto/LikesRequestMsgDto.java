@@ -1,20 +1,21 @@
-package hanghae11.springexample.member.dto;
+package hanghae11.springexample.likes.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class SignupRequestMsgDto {
+public class LikesRequestMsgDto {
     private String msg;
 
     private Integer httpStatus;
+    private Integer count;
 
-    public SignupRequestMsgDto(String msg, Integer httpStatus) {
+    public LikesRequestMsgDto(String msg, Integer httpStatus, Integer count) {
         this.msg = msg;
         this.httpStatus = httpStatus;
+        this.count = count;
     }
 }

@@ -17,11 +17,12 @@ public class SignupRequestDto {
 
     @NotBlank
     @Size(min = 8, max = 15)
-    @Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\\d]+", message = "알파벳 대소문자, 숫자로 구성되어야 합니다.")
+    @Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%()])[a-zA-Z\\d!@#$%()]+", message = "알파벳 대소문자, 숫자, 특수문자[ !,@,#,$,%,(,) ]로 구성되어야 합니다.")
     private String password;
 
     private MemberRoleEnum role;
 
     private boolean admin = false;
+    private String adminToken = "";
 
 }
