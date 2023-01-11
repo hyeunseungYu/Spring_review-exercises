@@ -27,7 +27,7 @@ public class Reply {
     private FreeBoard freeBoard;
 
     @OneToMany(mappedBy = "replyLikes", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Likes> likes = new ArrayList<>();
+    List<ReplyLikes> replyLikes = new ArrayList<>();
 
     private Reply(ReplyBuilder replyBuilder) {
         this.contents = replyBuilder.contents;

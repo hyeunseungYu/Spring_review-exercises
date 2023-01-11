@@ -42,37 +42,16 @@ public class FreeBoardService {
 
 
     @Transactional
-    public memberRequestDto createPost(CreatePostRequestDto createPostRequestDto, HttpServletRequest request) {
+    public memberRequestDto createPost(CreatePostRequestDto createPostRequestDto, Member member) {
 
-        // Request에서 Token 가져오기
-        String token = jwtUtil.resolveToken(request);
-        Claims claims;
+        FreeBoard freeBoard = FreeBoard.builder()
+                .username(member.getUsername())
+                .titles(createPostRequestDto.getTitles())
+                .contents(createPostRequestDto.getContents())
+                .member(member).build();
 
-        if (token != null) {
-            // Token 검증
-            if (jwtUtil.validateToken(token)) {
-                // 토큰에서 사용자 정보 가져오기
-                claims = jwtUtil.getUserInfoFromToken(token);
-            } else {
-                throw new IllegalArgumentException("Token error");
-            }
-
-            Member member = memberRepository.findByUsername(claims.getSubject());
-
-            FreeBoard freeBoard = FreeBoard.builder()
-                    .username(claims.getSubject())
-                    .titles(createPostRequestDto.getTitles())
-                    .contents(createPostRequestDto.getContents())
-                    .member(member).build();
-
-
-            freeBoardRepository.save(freeBoard);
-            return new memberRequestDto(freeBoard, new memberDto(member));
-
-        }else {
-            throw new IllegalArgumentException("토큰이 확인되지 않음");
-        }
-
+        freeBoardRepository.save(freeBoard);
+        return new memberRequestDto(freeBoard, new memberDto(member));
     }
 
     public FreeBoardRequestDto targetSearch(Long id) {
@@ -82,87 +61,47 @@ public class FreeBoardService {
         return new FreeBoardRequestDto(entity);
     }
 
+    @Transactional
+    public SignupRequestMsgDto freeBoardEditRequestDto(Long id, FreeBoardEditRequestDto freeBoardEditRequestDto, Member member) {
 
-@Transactional
-    public SignupRequestMsgDto freeBoardEditRequestDto(Long id, FreeBoardEditRequestDto freeBoardEditRequestDto, HttpServletRequest request) {
-        // Request에서 Token 가져오기
-        String token = jwtUtil.resolveToken(request);
-        Claims claims;
+        //param에 해당하는 게시글 찾기
+        FreeBoard entity = freeBoardRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다.")
+        );
 
-        if (token != null) {
-            // Token 검증
-            if (jwtUtil.validateToken(token)) {
-                // 토큰에서 사용자 정보 가져오기
-                claims = jwtUtil.getUserInfoFromToken(token);
-            } else {
-                return new SignupRequestMsgDto("토큰이 유효하지 않습니다.", HttpStatus.BAD_REQUEST.value());
-            }
-            //토큰에 들어있는 username으로 member 찾기
-            Member member = memberRepository.findByUsername(claims.getSubject());
-
-
-            //param에 해당하는 게시글 찾기
-            FreeBoard entity = freeBoardRepository.findById(id).orElseThrow(
-                    () -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다.")
-            );
-
-            //사용자가 admin이면 바로 수정
-            if (member.getRole().equals(MemberRoleEnum.ADMIN)) {
-                entity.update(freeBoardEditRequestDto, member);
-                return new SignupRequestMsgDto("수정하였습니다.", HttpStatus.OK.value());
-            }
-
-            //토큰에 들어있는 이름과 게시글의 이름이 다르면 토큰을 가진 사용자가 작성한 글이 아님
-            if (!entity.getUsername().equals(member.getUsername())){
-                return new SignupRequestMsgDto("본인이 작성한 글만 수정할 수 있습니다.", HttpStatus.BAD_REQUEST.value());
-            }
-
+        //사용자가 admin이면 바로 수정
+        if (member.getRole().equals(MemberRoleEnum.ADMIN)) {
             entity.update(freeBoardEditRequestDto, member);
             return new SignupRequestMsgDto("수정하였습니다.", HttpStatus.OK.value());
-
-        } else {
-            return new SignupRequestMsgDto("토큰이 유효하지 않습니다",HttpStatus.BAD_REQUEST.value());
         }
+
+        //로그인한 사용자의 이름과 게시글의 이름이 다르면 해당 사용자가 작성한 글이 아님
+        if (!entity.getUsername().equals(member.getUsername())) {
+            return new SignupRequestMsgDto("본인이 작성한 글만 수정할 수 있습니다.", HttpStatus.BAD_REQUEST.value());
+        }
+
+        entity.update(freeBoardEditRequestDto, member);
+        return new SignupRequestMsgDto("수정하였습니다.", HttpStatus.OK.value());
     }
 
-    public SignupRequestMsgDto freeBoardDelete(Long id, HttpServletRequest request) {
-        // Request에서 Token 가져오기
-        String token = jwtUtil.resolveToken(request);
-        Claims claims;
+    public SignupRequestMsgDto freeBoardDelete(Long id, Member member) {
 
-        if (token != null) {
-            // Token 검증
-            if (jwtUtil.validateToken(token)) {
-                // 토큰에서 사용자 정보 가져오기
-                claims = jwtUtil.getUserInfoFromToken(token);
-            } else {
-                return new SignupRequestMsgDto("토큰이 유효하지 않습니다.",HttpStatus.BAD_REQUEST.value());
-            }
+        FreeBoard entity = freeBoardRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("작성한 게시글이 존재하지 않습니다.")
+        );
 
-            Member member = memberRepository.findByUsername(claims.getSubject());
-
-            FreeBoard entity = freeBoardRepository.findById(id).orElseThrow(
-                    () -> new IllegalArgumentException("작성한 게시글이 존재하지 않습니다.")
-            );
-
-            //사용자가 admin이면 바로 삭제
-            if (member.getRole().equals(MemberRoleEnum.ADMIN)) {
-                freeBoardRepository.deleteById(id);
-                return new SignupRequestMsgDto("삭제하였습니다.", HttpStatus.OK.value());
-            }
-
-            if (!entity.getUsername().equals(member.getUsername())){
-                return new SignupRequestMsgDto("본인이 작성한 글만 삭제할 수 있습니다.", HttpStatus.BAD_REQUEST.value());
-            }
-
-
+        //사용자가 admin이면 바로 삭제
+        if (member.getRole().equals(MemberRoleEnum.ADMIN)) {
             freeBoardRepository.deleteById(id);
             return new SignupRequestMsgDto("삭제하였습니다.", HttpStatus.OK.value());
-
-        }else {
-
-            return new SignupRequestMsgDto("토큰이 유효하지 않습니다.",HttpStatus.BAD_REQUEST.value());
         }
+
+        if (!entity.getUsername().equals(member.getUsername())) {
+            return new SignupRequestMsgDto("본인이 작성한 글만 삭제할 수 있습니다.", HttpStatus.BAD_REQUEST.value());
+        }
+
+        freeBoardRepository.deleteById(id);
+        return new SignupRequestMsgDto("삭제하였습니다.", HttpStatus.OK.value());
 
     }
 

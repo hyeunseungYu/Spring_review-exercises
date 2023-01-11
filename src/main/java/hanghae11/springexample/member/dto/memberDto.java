@@ -8,13 +8,13 @@ import lombok.Data;
 public class memberDto {
     private Long id;
     private String username;
-    private String password;
+//    private String password;
     private MemberRoleEnum role;
 
     public memberDto(Member member) {
         this.id = member.getId();
         this.username = member.getUsername();
-        this.password = member.getPassword();
+//        this.password = member.getPassword();
         this.role = member.getRole();
     }
 }

@@ -1,8 +1,5 @@
 package hanghae11.springexample.entity;
 
-import hanghae11.springexample.dto.FreeBoardEditRequestDto;
-import hanghae11.springexample.member.dto.AdminRequestDto;
-import hanghae11.springexample.member.dto.SignupRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,15 +28,13 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     List<FreeBoard> freeBoards = new ArrayList<>();
 
-    @OneToMany(mappedBy = "memberLikes", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Likes> likes = new ArrayList<>();
+    @OneToMany(mappedBy = "memberPostLikes", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<PostLikes> postLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "memberReplyLikes", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<ReplyLikes> replyLikes = new ArrayList<>();
 
 
-//    public Member(String username, String password, MemberRoleEnum role) {
-//        this.username = username;
-//        this.password = password;
-//        this.role = role;
-//    }
 
     private Member(MemberBuilder memberBuilder) {
         this.username = memberBuilder.username;

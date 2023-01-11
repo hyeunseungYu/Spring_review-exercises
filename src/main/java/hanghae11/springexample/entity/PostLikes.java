@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor
-public class Likes {
+public class PostLikes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,21 +21,18 @@ public class Likes {
 
     @ManyToOne
     @JoinColumn(name = "freeboard_id")
-    private FreeBoard freeBoardLikes;
+    private FreeBoard freeBoardPostLikes;
 
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
-    private Member memberLikes;
+    private Member memberPostLikes;
 
-    @ManyToOne
-    @JoinColumn(name = "reply_id")
-    private Reply replyLikes;
 
-    private Likes(LikesBuilder likesBuilder) {
+
+    private PostLikes(LikesBuilder likesBuilder) {
         this.likeCheck = likesBuilder.likeCheck;
-        this.freeBoardLikes =likesBuilder.freeBoard;
-        this.memberLikes = likesBuilder.member;
-        this.replyLikes = likesBuilder.reply;
+        this.freeBoardPostLikes =likesBuilder.freeBoard;
+        this.memberPostLikes = likesBuilder.member;
         this.username = likesBuilder.username;
     }
 
@@ -47,7 +44,7 @@ public class Likes {
         private Integer likeCheck;
         private FreeBoard freeBoard;
         private Member member;
-        private Reply reply;
+
         private String username;
 
         protected LikesBuilder() {
@@ -69,17 +66,13 @@ public class Likes {
             return this;
         }
 
-        public LikesBuilder reply(Reply reply) {
-            this.reply = reply;
-            return this;
-        }
 
         public LikesBuilder username(String username) {
             this.username = username;
             return this;
         }
-        public Likes build() {
-            return new Likes(this);
+        public PostLikes build() {
+            return new PostLikes(this);
         }
     }
 

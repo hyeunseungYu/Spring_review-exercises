@@ -5,7 +5,10 @@ import hanghae11.springexample.member.dto.AdminRequestDto;
 import hanghae11.springexample.member.dto.SignupRequestDto;
 import hanghae11.springexample.member.dto.SignupRequestMsgDto;
 import hanghae11.springexample.member.service.MemberService;
+import hanghae11.springexample.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,6 +18,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
     private final MemberService memberService;
 
@@ -29,8 +33,9 @@ public class MemberController {
     }
 
     @PutMapping("/admin/{id}")
-    public SignupRequestMsgDto giveAdmin(@PathVariable Long id, @RequestBody AdminRequestDto adminRequestDto, HttpServletRequest request) {
-        return memberService.giveAdmin(id, adminRequestDto , request);
+    public String giveAdmin(@PathVariable Long id, @RequestBody AdminRequestDto adminRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        memberService.giveAdmin(id, adminRequestDto , userDetails.getMember());
+        return "redirect:/login";
     }
 
     @GetMapping("/forbidden")

@@ -78,40 +78,26 @@ public class MemberService {
     }
 
     @Transactional
-    public SignupRequestMsgDto giveAdmin(Long id, AdminRequestDto adminRequestDto, HttpServletRequest request) {
-        // Request에서 Token 가져오기
-        String token = jwtUtil.resolveToken(request);
-        System.out.println(adminRequestDto.getAdminToken());
-        Claims claims;
+    public void giveAdmin(Long id, AdminRequestDto adminRequestDto, Member member) {
 
-        if (token != null) {
-            // Token 검증
-            if (jwtUtil.validateToken(token)) {
-                // 토큰에서 사용자 정보 가져오기
-                claims = jwtUtil.getUserInfoFromToken(token);
-            } else {
-                throw new IllegalArgumentException("Token Error");
-            }
-
-            Member member = memberRepository.findById(id).orElseThrow(
-                    () -> new IllegalArgumentException("error")
-            );
-
-
-            if (!adminRequestDto.getAdminToken().equals(ADMIN_TOKEN)) {
-                throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
-            }
-
-            MemberRoleEnum role = MemberRoleEnum.ADMIN;
-
-            member.adminUpdate(role);
-
-            return new SignupRequestMsgDto("권한을 부여하였습니다.", HttpStatus.OK.value());
-
-        }else {
-            throw new IllegalArgumentException("토큰이 확인되지 않음");
+        if (!adminRequestDto.getAdminToken().equals(ADMIN_TOKEN)) {
+            throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
         }
 
+        MemberRoleEnum role = MemberRoleEnum.ADMIN;
+        String username = member.getUsername();
+        String password = member.getPassword();
+
+        Member memberEntity = Member.builder()
+                .username(username)
+                .password(password)
+                .role(role)
+                .build();
+
+        memberRepository.save(memberEntity);
+        memberRepository.delete(member);
+
+//        return new SignupRequestMsgDto("권한을 부여하였습니다.", HttpStatus.OK.value());
 
     }
 

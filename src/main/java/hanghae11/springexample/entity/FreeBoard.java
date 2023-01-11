@@ -1,6 +1,5 @@
 package hanghae11.springexample.entity;
 
-import hanghae11.springexample.dto.CreatePostRequestDto;
 import hanghae11.springexample.dto.FreeBoardEditRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,15 +33,12 @@ public class FreeBoard extends Timestamped {
     @OneToMany(mappedBy = "freeBoard", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Reply> replies = new ArrayList<>();
 
-    @OneToMany(mappedBy = "freeBoardLikes", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Likes> likes = new ArrayList<>();
+    @OneToMany(mappedBy = "freeBoardPostLikes", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<PostLikes> postLikes = new ArrayList<>();
 
-//    public FreeBoard(CreatePostRequestDto createPostRequestDto) {
-//        this.contents = createPostRequestDto.getContents();
-//        this.username = createPostRequestDto.getUsername();
-//        this.titles = createPostRequestDto.getTitles();
-//        this.member = createPostRequestDto.getMember();
-//    }
+    @OneToMany(mappedBy = "freeBoardReplyLikes", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<ReplyLikes> replyLikes = new ArrayList<>();
+
 
     private FreeBoard(FreeboardBuilder freeboardBuilder) {
 

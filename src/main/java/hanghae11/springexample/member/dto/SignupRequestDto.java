@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 public class SignupRequestDto {
     @NotBlank
     @Size(min = 4, max = 10)
-    @Pattern(regexp = "[a-z0-9]+", message = "알파벳 소문자, 숫자로 구성되어야 합니다.")
+    @Pattern(regexp = "(?=.*\\d)(?=.*[a-z])[a-z0-9]+", message = "알파벳 소문자, 숫자로 구성되어야 합니다.")
     private String username;
 
     @NotBlank
