@@ -24,7 +24,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
-    
+
     @Value("${admin.token}")
     private String ADMIN_TOKEN;
 

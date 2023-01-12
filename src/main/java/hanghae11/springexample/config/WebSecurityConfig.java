@@ -34,7 +34,7 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         // h2-console 사용 및 resources 접근 허용 설정
-        // 아래 swagger 안티매쳐로 허용한 것처럼 할 수도 있는데 이게 더 편해보임.
+        // 아래처럼 할 수도 있는데 이게 더 편해보임.
         // 근데 다른 건 어떤 클래스에서 가져와야 할지 모르겠음.
         return (web) -> web.ignoring()
                 .requestMatchers(PathRequest.toH2Console())
