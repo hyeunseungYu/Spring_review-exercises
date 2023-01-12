@@ -1,5 +1,7 @@
-package hanghae11.springexample.entity;
+package hanghae11.springexample.likes.entity;
 
+import hanghae11.springexample.freeBoard.entity.FreeBoard;
+import hanghae11.springexample.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,10 +30,9 @@ public class PostLikes {
     private Member memberPostLikes;
 
 
-
     private PostLikes(LikesBuilder likesBuilder) {
         this.likeCheck = likesBuilder.likeCheck;
-        this.freeBoardPostLikes =likesBuilder.freeBoard;
+        this.freeBoardPostLikes = likesBuilder.freeBoard;
         this.memberPostLikes = likesBuilder.member;
         this.username = likesBuilder.username;
     }
@@ -44,7 +45,6 @@ public class PostLikes {
         private Integer likeCheck;
         private FreeBoard freeBoard;
         private Member member;
-
         private String username;
 
         protected LikesBuilder() {
@@ -71,6 +71,7 @@ public class PostLikes {
             this.username = username;
             return this;
         }
+
         public PostLikes build() {
             return new PostLikes(this);
         }

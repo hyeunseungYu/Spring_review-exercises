@@ -23,12 +23,12 @@ public class ReplyController {
     }
 
     @PutMapping("/posts/{id}/{replyId}")
-    public ReplyRequestMsgDto editReply(@PathVariable Long id, @PathVariable Long replyId,@RequestBody ReplyRequestDto replyRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return replyService.editReply(id,replyId, replyRequestDto, userDetails.getMember());
+    public ReplyRequestMsgDto editReply(@PathVariable Long id, @PathVariable Long replyId, @RequestBody ReplyRequestDto replyRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return replyService.editReply(id, replyId, replyRequestDto, userDetails.getMember());
     }
 
     @DeleteMapping("/posts/{id}/{replyId}")
-    public ReplyRequestMsgDto deleteReply(@PathVariable Long id,@PathVariable Long replyId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ReplyRequestMsgDto deleteReply(@PathVariable Long id, @PathVariable Long replyId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return replyService.deleteReply(id, replyId, userDetails.getMember());
     }
 }

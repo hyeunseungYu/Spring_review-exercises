@@ -1,6 +1,7 @@
 package hanghae11.springexample.member.controller;
 
 //import hanghae11.springexample.member.dto.AdminRequestDto;
+
 import hanghae11.springexample.member.dto.AdminRequestDto;
 import hanghae11.springexample.member.dto.SignupRequestDto;
 import hanghae11.springexample.member.dto.SignupRequestMsgDto;
@@ -29,12 +30,12 @@ public class MemberController {
 
     @PostMapping("/login")
     public SignupRequestMsgDto login(@RequestBody SignupRequestDto signupRequestDto, HttpServletResponse response) {
-        return memberService.login(signupRequestDto,response);
+        return memberService.login(signupRequestDto, response);
     }
 
-    @PutMapping("/admin/{id}")
-    public String giveAdmin(@PathVariable Long id, @RequestBody AdminRequestDto adminRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        memberService.giveAdmin(id, adminRequestDto , userDetails.getMember());
+    @PutMapping("/admin")
+    public String giveAdmin(@RequestBody AdminRequestDto adminRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        memberService.giveAdmin(adminRequestDto, userDetails.getMember());
         return "redirect:/login";
     }
 

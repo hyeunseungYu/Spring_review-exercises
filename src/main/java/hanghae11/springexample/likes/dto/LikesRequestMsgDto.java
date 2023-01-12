@@ -9,7 +9,6 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class LikesRequestMsgDto {
     private String msg;
-
     private Integer httpStatus;
     private Integer count;
 

@@ -1,6 +1,6 @@
 package hanghae11.springexample.jwt;
 
-import hanghae11.springexample.entity.MemberRoleEnum;
+import hanghae11.springexample.member.entity.MemberRoleEnum;
 import hanghae11.springexample.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -27,7 +27,6 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtUtil {
     private final UserDetailsServiceImpl userDetailsService;
-
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String AUTHORIZATION_KEY = "auth";
     private static final String BEARER_PREFIX = "Bearer ";

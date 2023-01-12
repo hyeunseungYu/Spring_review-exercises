@@ -1,11 +1,10 @@
-package hanghae11.springexample.dto;
+package hanghae11.springexample.freeBoard.dto;
 
-import hanghae11.springexample.entity.FreeBoard;
+import hanghae11.springexample.freeBoard.entity.FreeBoard;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Getter
 @RequiredArgsConstructor

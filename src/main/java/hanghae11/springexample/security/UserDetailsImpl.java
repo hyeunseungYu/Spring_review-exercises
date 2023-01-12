@@ -1,8 +1,8 @@
 package hanghae11.springexample.security;
 
 
-import hanghae11.springexample.entity.Member;
-import hanghae11.springexample.entity.MemberRoleEnum;
+import hanghae11.springexample.member.entity.Member;
+import hanghae11.springexample.member.entity.MemberRoleEnum;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

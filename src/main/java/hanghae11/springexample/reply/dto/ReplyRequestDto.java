@@ -1,9 +1,8 @@
 package hanghae11.springexample.reply.dto;
 
-import hanghae11.springexample.entity.FreeBoard;
+import hanghae11.springexample.freeBoard.entity.FreeBoard;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 @NoArgsConstructor

@@ -1,19 +1,21 @@
 package hanghae11.springexample.likes.service;
 
-import hanghae11.springexample.entity.*;
+
+import hanghae11.springexample.freeBoard.entity.*;
 import hanghae11.springexample.jwt.JwtUtil;
 import hanghae11.springexample.likes.PostLikesRepository;
 import hanghae11.springexample.likes.ReplyLikesRepository;
 import hanghae11.springexample.likes.dto.LikesRequestMsgDto;
+import hanghae11.springexample.likes.entity.PostLikes;
+import hanghae11.springexample.likes.entity.ReplyLikes;
+import hanghae11.springexample.member.entity.Member;
 import hanghae11.springexample.member.repository.MemberRepository;
+import hanghae11.springexample.reply.entity.Reply;
 import hanghae11.springexample.reply.repository.ReplyRepository;
-import hanghae11.springexample.repository.FreeBoardRepository;
-import io.jsonwebtoken.Claims;
+import hanghae11.springexample.freeBoard.repository.FreeBoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Service
 @RequiredArgsConstructor

@@ -1,7 +1,6 @@
-package hanghae11.springexample.repository;
+package hanghae11.springexample.freeBoard.repository;
 
-import hanghae11.springexample.entity.FreeBoard;
-import hanghae11.springexample.entity.Member;
+import hanghae11.springexample.freeBoard.entity.FreeBoard;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

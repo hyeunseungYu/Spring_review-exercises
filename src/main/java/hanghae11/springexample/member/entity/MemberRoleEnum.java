@@ -1,4 +1,4 @@
-package hanghae11.springexample.entity;
+package hanghae11.springexample.member.entity;
 
 public enum MemberRoleEnum {
     MEMBER(Authority.MEMBER),  // 사용자 권한

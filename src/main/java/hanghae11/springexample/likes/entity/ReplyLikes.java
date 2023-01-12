@@ -1,5 +1,8 @@
-package hanghae11.springexample.entity;
+package hanghae11.springexample.likes.entity;
 
+import hanghae11.springexample.freeBoard.entity.FreeBoard;
+import hanghae11.springexample.reply.entity.Reply;
+import hanghae11.springexample.member.entity.Member;
 import lombok.*;
 
 import javax.persistence.*;

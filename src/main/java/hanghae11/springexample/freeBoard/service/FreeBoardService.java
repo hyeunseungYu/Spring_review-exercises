@@ -1,23 +1,26 @@
-package hanghae11.springexample.service;
+package hanghae11.springexample.freeBoard.service;
 
-import hanghae11.springexample.dto.*;
-import hanghae11.springexample.entity.FreeBoard;
-import hanghae11.springexample.entity.Member;
-import hanghae11.springexample.entity.MemberRoleEnum;
+
+import hanghae11.springexample.freeBoard.dto.FreeBoardEditRequestDto;
+import hanghae11.springexample.freeBoard.dto.FreeBoardRequestDto;
+import hanghae11.springexample.freeBoard.entity.FreeBoard;
+import hanghae11.springexample.member.entity.Member;
+import hanghae11.springexample.member.entity.MemberRoleEnum;
+import hanghae11.springexample.freeBoard.dto.CreatePostRequestDto;
+import hanghae11.springexample.freeBoard.repository.FreeBoardRepository;
 import hanghae11.springexample.jwt.JwtUtil;
 import hanghae11.springexample.member.dto.SignupRequestMsgDto;
 
 import hanghae11.springexample.member.dto.memberDto;
 import hanghae11.springexample.member.dto.memberRequestDto;
-import hanghae11.springexample.repository.FreeBoardRepository;
+
 import hanghae11.springexample.member.repository.MemberRepository;
-import io.jsonwebtoken.Claims;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +30,6 @@ public class FreeBoardService {
     private final FreeBoardRepository freeBoardRepository;
     private final JwtUtil jwtUtil;
     private final MemberRepository memberRepository;
-
 
     public List<FreeBoardRequestDto> getFreeBoardInfo() {
         List<FreeBoard> freeBoardList = freeBoardRepository.findAllByOrderByModifiedAtDesc();
@@ -104,6 +106,4 @@ public class FreeBoardService {
         return new SignupRequestMsgDto("삭제하였습니다.", HttpStatus.OK.value());
 
     }
-
-
 }

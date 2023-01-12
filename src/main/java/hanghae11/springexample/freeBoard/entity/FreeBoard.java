@@ -1,6 +1,11 @@
-package hanghae11.springexample.entity;
+package hanghae11.springexample.freeBoard.entity;
 
-import hanghae11.springexample.dto.FreeBoardEditRequestDto;
+import hanghae11.springexample.common.dto.Timestamped;
+import hanghae11.springexample.freeBoard.dto.FreeBoardEditRequestDto;
+import hanghae11.springexample.likes.entity.PostLikes;
+import hanghae11.springexample.likes.entity.ReplyLikes;
+import hanghae11.springexample.member.entity.Member;
+import hanghae11.springexample.reply.entity.Reply;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

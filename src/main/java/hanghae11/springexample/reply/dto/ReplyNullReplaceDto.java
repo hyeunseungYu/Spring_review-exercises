@@ -1,6 +1,6 @@
 package hanghae11.springexample.reply.dto;
 
-import hanghae11.springexample.entity.Reply;
+import hanghae11.springexample.reply.entity.Reply;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

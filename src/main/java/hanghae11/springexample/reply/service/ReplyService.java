@@ -2,21 +2,18 @@ package hanghae11.springexample.reply.service;
 
 import hanghae11.springexample.reply.dto.ReplyRequestDto;
 import hanghae11.springexample.reply.dto.ReplyRequestMsgDto;
-import hanghae11.springexample.entity.FreeBoard;
-import hanghae11.springexample.entity.Member;
-import hanghae11.springexample.entity.MemberRoleEnum;
-import hanghae11.springexample.entity.Reply;
+import hanghae11.springexample.freeBoard.entity.FreeBoard;
+import hanghae11.springexample.member.entity.Member;
+import hanghae11.springexample.member.entity.MemberRoleEnum;
+import hanghae11.springexample.reply.entity.Reply;
 import hanghae11.springexample.jwt.JwtUtil;
-import hanghae11.springexample.repository.FreeBoardRepository;
+import hanghae11.springexample.freeBoard.repository.FreeBoardRepository;
 import hanghae11.springexample.member.repository.MemberRepository;
 import hanghae11.springexample.reply.repository.ReplyRepository;
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -62,7 +59,7 @@ public class ReplyService {
         }
 
         //토큰에 들어있는 이름과 게시글의 이름이 다르면 토큰을 가진 사용자가 작성한 글이 아님
-        if (!reply.getUsername().equals(member.getUsername())){
+        if (!reply.getUsername().equals(member.getUsername())) {
             return new ReplyRequestMsgDto("본인이 작성한 글만 수정할 수 있습니다.", HttpStatus.BAD_REQUEST.value());
         }
 

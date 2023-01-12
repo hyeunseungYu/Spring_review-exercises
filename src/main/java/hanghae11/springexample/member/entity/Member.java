@@ -1,5 +1,8 @@
-package hanghae11.springexample.entity;
+package hanghae11.springexample.member.entity;
 
+import hanghae11.springexample.freeBoard.entity.FreeBoard;
+import hanghae11.springexample.likes.entity.PostLikes;
+import hanghae11.springexample.likes.entity.ReplyLikes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

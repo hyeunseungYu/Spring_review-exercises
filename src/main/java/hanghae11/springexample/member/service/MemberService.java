@@ -1,22 +1,20 @@
 package hanghae11.springexample.member.service;
 
-import hanghae11.springexample.entity.MemberRoleEnum;
+import hanghae11.springexample.member.entity.MemberRoleEnum;
 import hanghae11.springexample.jwt.JwtUtil;
-//import hanghae11.springexample.member.dto.AdminRequestDto;
 import hanghae11.springexample.member.dto.AdminRequestDto;
 import hanghae11.springexample.member.dto.SignupRequestDto;
 import hanghae11.springexample.member.dto.SignupRequestMsgDto;
-import hanghae11.springexample.entity.Member;
+import hanghae11.springexample.member.entity.Member;
 import hanghae11.springexample.member.repository.MemberRepository;
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Service
@@ -26,16 +24,14 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
+    
+    @Value("${admin.token}")
+    private String ADMIN_TOKEN;
 
-    //다른 방법 찾기
-    private static final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
-
-    public SignupRequestMsgDto signup (SignupRequestDto signupRequestDto) {
+    public SignupRequestMsgDto signup(SignupRequestDto signupRequestDto) {
         String username = signupRequestDto.getUsername();
         String password = passwordEncoder.encode(signupRequestDto.getPassword());
         MemberRoleEnum role = MemberRoleEnum.MEMBER;
-
-
 
         //사용자 확인
         Member existMember = memberRepository.findByUsername(username);
@@ -61,7 +57,6 @@ public class MemberService {
         String username = signupRequestDto.getUsername();
         String password = signupRequestDto.getPassword();
 
-
         //사용자 확인
         Member existMember = memberRepository.findByUsername(username);
 
@@ -78,9 +73,11 @@ public class MemberService {
     }
 
     @Transactional
-    public void giveAdmin(Long id, AdminRequestDto adminRequestDto, Member member) {
+    public void giveAdmin(AdminRequestDto adminRequestDto, Member member) {
 
         if (!adminRequestDto.getAdminToken().equals(ADMIN_TOKEN)) {
+            log.info(adminRequestDto.getAdminToken());
+            log.info(ADMIN_TOKEN);
             throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
         }
 

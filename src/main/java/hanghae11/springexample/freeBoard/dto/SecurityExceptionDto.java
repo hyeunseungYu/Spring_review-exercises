@@ -1,4 +1,4 @@
-package hanghae11.springexample.dto;
+package hanghae11.springexample.freeBoard.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

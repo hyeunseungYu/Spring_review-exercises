@@ -1,6 +1,6 @@
 package hanghae11.springexample.member.dto;
 
-import hanghae11.springexample.entity.FreeBoard;
+import hanghae11.springexample.freeBoard.entity.FreeBoard;
 import lombok.Data;
 
 @Data

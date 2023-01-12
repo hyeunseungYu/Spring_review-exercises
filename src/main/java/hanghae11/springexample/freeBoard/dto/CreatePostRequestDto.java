@@ -1,7 +1,7 @@
-package hanghae11.springexample.dto;
+package hanghae11.springexample.freeBoard.dto;
 
-import hanghae11.springexample.entity.FreeBoard;
-import hanghae11.springexample.entity.Member;
+import hanghae11.springexample.freeBoard.entity.FreeBoard;
+import hanghae11.springexample.member.entity.Member;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

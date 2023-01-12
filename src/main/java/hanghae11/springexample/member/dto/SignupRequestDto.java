@@ -1,7 +1,6 @@
 package hanghae11.springexample.member.dto;
 
-import hanghae11.springexample.entity.Member;
-import hanghae11.springexample.entity.MemberRoleEnum;
+import hanghae11.springexample.member.entity.MemberRoleEnum;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

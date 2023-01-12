@@ -1,6 +1,6 @@
 package hanghae11.springexample.security;
 
-import hanghae11.springexample.entity.Member;
+import hanghae11.springexample.member.entity.Member;
 import hanghae11.springexample.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +18,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Member member = memberRepository.findByUsername(username);
-
 
         return new UserDetailsImpl(member, member.getUsername());
     }
